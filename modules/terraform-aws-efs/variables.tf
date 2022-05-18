@@ -31,3 +31,7 @@ variable "vpc_id" {
 variable "security_groups" {
     default = []
 }
+
+variable "app_name" {
+    default = "jenkins"
+}

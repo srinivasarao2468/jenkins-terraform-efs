@@ -16,5 +16,5 @@ variable "tags" {
     propagate_at_launch = true
   }]
 }
-variable "asg_name" { 
+variable "app_name" { 
 }

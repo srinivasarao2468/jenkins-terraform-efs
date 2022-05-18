@@ -1,10 +1,5 @@
-resource "random_string" "random" {
-  length           = 5
-  special          = true
-  override_special = "/@£$"
-}
 resource "aws_launch_configuration" "lc" {
-  name_prefix = "${var.name_prefix}-${var.name}"
+  name_prefix = "${var.app_name}-${var.name_prefix}-lc"
   image_id      = var.image_id
   instance_type = var.instance_type
   key_name = var.key_name
@@ -31,21 +26,12 @@ data "template_file" "userdata" {
 }
 
 resource "aws_security_group" "jenkins_sg" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
+  name        = "${var.app_name}-lc-sg"
+  description = "Allow all inbound traffic on specfied ports"
   vpc_id      = var.vpc_id
-
-  ingress {
-    description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
   
   ingress {
-    description      = "TLS from VPC"
+    description      = "all traffic on port 8080"
     from_port        = 8080
     to_port          = 8080
     protocol         = "tcp"
@@ -54,7 +40,7 @@ resource "aws_security_group" "jenkins_sg" {
   }
 
   ingress {
-    description      = "TLS from VPC"
+    description      = "all traffic on port 22"
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
@@ -71,6 +57,6 @@ resource "aws_security_group" "jenkins_sg" {
   }
 
   tags = {
-    Name = "allow_tls"
+    Name = "${var.app_name}-lc-sg"
   }
 }
