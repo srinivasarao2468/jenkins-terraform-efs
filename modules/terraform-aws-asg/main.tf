@@ -1,5 +1,5 @@
 resource "aws_autoscaling_group" "autoscaling_group" {
-  name                      = var.asg_name
+  name                      = "${var.app_name}-asg"
   max_size                  = 1
   min_size                  = 1
   health_check_grace_period = 300

@@ -1,5 +1,5 @@
-variable "name" {
-    default = "jenkins-launch-config"
+variable "app_name" {
+    default = "jenkins"
 }
 
 variable "name_prefix" {
